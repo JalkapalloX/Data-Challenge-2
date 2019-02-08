@@ -1,3 +1,9 @@
+~~~ OBSERVATIONS ~~~
+- A few lines are missing any values.
+- Lots of 0's seem unexplained (e.g. having 9000 clicks but 0 inview ads)
+- Many cases just have group A or B, not A and B
+- Some buyer bids are 0.
+
 ~~~ SUCCESS METRICS ~~~
 --- Columns ---
 - Advertiser
@@ -36,6 +42,3 @@ unique_user_post_view_conv	How many unqiue devices had conversion after loading 
 media_cost		Cost to advertiser per 1000 impressions
 buyer_bid		?
 clicks			How often ad was clicked and user redirected to company site
-
-### How does performance change with time of the year/week?
-### Calculate buyer_bid as exact as possible -> Can we isolate factors?
