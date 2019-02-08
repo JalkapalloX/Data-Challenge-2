@@ -3,6 +3,7 @@
 - Lots of 0's seem unexplained (e.g. having 9000 clicks but 0 inview ads)
 - Many cases just have group A or B, not A and B
 - Some buyer bids are 0.
+- We cannot always backtrack individual A/B-tests and compare them because multiple may be going on at the same time.
 
 ~~~ SUCCESS METRICS ~~~
 --- Columns ---
