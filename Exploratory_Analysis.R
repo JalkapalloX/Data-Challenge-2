@@ -1,4 +1,5 @@
 # LOADING PACKAGES
+if (!require("tidyverse")) install.packages("tidyverse")
 library(tidyverse)
 
 # SET WORKING DIRECTORY TO FILE DIRECTORY (RSTUDIO ONLY)
@@ -8,10 +9,10 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 ### Is media cost the base that everyone bids over?
 ### Average outcomes over time
 
-data <- read.csv("DataChallenge2019_GreenhouseGroup_Bidding_Algorithms_Tests.csv", sep=";")
+data <- read.csv("original dataset/DataChallenge2019_GreenhouseGroup_Bidding_Algorithms_Tests.csv", sep=";")
+
 ### Weird empty lines in the middle of the data frame.
 data <- data[!is.na(data$advertiser_id),]
-
 
 # CORRELATING BUYER BID WITH OUTCOMES
 cor(data$buyer_bid, data[,colnames(data)[18:ncol(data)]], use = "pairwise")
