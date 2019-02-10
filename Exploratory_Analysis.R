@@ -11,6 +11,12 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 data <- read.csv("original dataset/DataChallenge2019_GreenhouseGroup_Bidding_Algorithms_Tests.csv", sep=";")
 
+data$advertiser_id <- factor(data$advertiser_id)
+data$campaign_group_id <- factor(data$campaign_group_id)
+data$campaign_id <- factor(data$campaign_id)
+data$start_date <- as.Date(data$start_date)
+data$end_date <- as.Date(data$end_date)
+
 ### Weird empty lines in the middle of the data frame.
 data <- data[!is.na(data$advertiser_id),]
 
