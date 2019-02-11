@@ -61,6 +61,4 @@ plot(data$exp_bid, data$buyer_bid)
 
 ### Heinz, Amro and Achmea have buyer_bids = 0?!
 
-### Interest of agency (by Jaymon): two-sample t-test
-cor(data$buyer_bid, data$test_group)
 
