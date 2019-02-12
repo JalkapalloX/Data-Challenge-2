@@ -1,3 +1,37 @@
+FIRST CLIENT MEETING NOTES
+
+- Why are there so many 0's?
+- Some numbers don't make sense -> more unique users buying after clicking than buying
+- Buyer bids are often 0
+- campaign_id, device_type, operating_system are not unique identifiers?
+- Duplicated rows?
+- conversion rates are unintuitive (too high)
+
+any duplicated campaign id's?
+
+Is impressions the better indicator than unique user impressions for buyer bid?
+Are there similar campaigns with different creative sizes (or other properties)? Do they have a
+significant difference in outcomes?
+
+Advertiser may go for brand recognition? When?
+
+PUBLISHER
+- goals: more money
+
+ADVERTISERS
+- What should be the properties of ads?
+
+AGENCIES
+- How well do we achieve advertisers goal with given budget?
+- How efficient was agencies work?
+- Agencies organize campaigns
+- Which campaign times are better?
+
+CONSUMER
+- Say you consider only customers who like big brothers
+- STUDY ON HOW PEOPLE HATE PERSONALIZED ADVERTISEMENTS
+
+-----------------------------------------------------------------------------------------------------
 ~~~ OBSERVATIONS ~~~
 - A few lines are missing any values.
 - Lots of 0's seem unexplained (e.g. having 9000 clicks but 0 inview ads)
