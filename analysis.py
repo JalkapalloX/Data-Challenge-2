@@ -26,7 +26,7 @@ data['inview/impression/euro'] = data['inview_per_impression'] / data['buyer_bid
 data['clicks/impression/euro'] = data['clicks_per_impression'] / data['buyer_bid']
 data['UU_clicks/impression/euro'] = data['UU_click_per_UU_impression'] / data['buyer_bid']
 
-def AB_performance(values, data=data):
+def agency_AB_performance(values, data=data):
     A_mean = []
     B_mean = []
     delta = []
@@ -53,17 +53,17 @@ def AB_performance(values, data=data):
     
     return performance_df
         
-reach_performance = AB_performance(values=['inview_per_impression', 
+reach_performance = agency_AB_performance(values=['inview_per_impression', 
                                            'clicks_per_impression', 
                                            'UU_inview_per_UU_impression', 
                                            'UU_click_per_UU_impression'])
 
-targeting_performance = AB_performance(values=['conv_per_inview',
+targeting_performance = agency_AB_performance(values=['conv_per_inview',
                                                'conv_per_click',
                                                'UU_conv_per_UU_inview',
                                                'UU_conv_per_UU_click'])
 
-efficiency_performance = AB_performance(values=['inview/impression/euro',
+efficiency_performance = agency_AB_performance(values=['inview/impression/euro',
                                                 'clicks/impression/euro',
                                                 'UU_clicks/impression/euro'])
     
