@@ -1,0 +1,79 @@
+FIRST CLIENT MEETING NOTES
+
+- Why are there so many 0's?
+- Some numbers don't make sense -> more unique users buying after clicking than buying
+- Buyer bids are often 0
+- campaign_id, device_type, operating_system are not unique identifiers?
+- Duplicated rows?
+- conversion rates are unintuitive (too high)
+
+any duplicated campaign id's?
+
+Is impressions the better indicator than unique user impressions for buyer bid?
+Are there similar campaigns with different creative sizes (or other properties)? Do they have a
+significant difference in outcomes?
+
+Advertiser may go for brand recognition? When?
+
+PUBLISHER
+- goals: more money
+
+ADVERTISERS
+- What should be the properties of ads?
+
+AGENCIES
+- How well do we achieve advertisers goal with given budget?
+- How efficient was agencies work?
+- Agencies organize campaigns
+- Which campaign times are better?
+
+CONSUMER
+- Say you consider only customers who like big brothers
+- STUDY ON HOW PEOPLE HATE PERSONALIZED ADVERTISEMENTS
+
+-----------------------------------------------------------------------------------------------------
+~~~ OBSERVATIONS ~~~
+- A few lines are missing any values.
+- Lots of 0's seem unexplained (e.g. having 9000 clicks but 0 inview ads)
+- Many cases just have group A or B, not A and B
+- Some buyer bids are 0.
+- We cannot always backtrack individual A/B-tests and compare them because multiple may be going on at the same time.
+
+~~~ SUCCESS METRICS ~~~
+--- Columns ---
+- Advertiser
+advertiser_name		Name of the company providing ads (Ignore)
+advertiser_id		Corresponds to advertiser name
+
+- Campaign
+campaign_group_id	Group of campaigns carried out in a similar time frame and with common goal
+campaign_id		A/B-test carried out
+test_group		A/B-bid strategy
+start_date		Start date of campaign for device and operating system subgroup
+end_date		End date of campaign for device and operating system subgroup
+
+- User
+device_type		Either desktop or other
+operating_system	Either Android, MacOS, Windows, iOS or other
+
+- Success
+impressions		How often an auction was won + ad was loaded onto page (viewable or not)
+creative_size_small	Number of small impressions (ads loaded to page)
+creative_size_medium	Number of medium impressions (ads loaded to page)
+creative_size_large	Number of large impressions (ads loaded to page)
+impressions_inview	Number of impressions viewable
+			Viewable: >50% of ad was on screen for 1+ second
+impressions_above_fold	?
+
+post_click_conv		N-Purchases after clicking the (last) ad		
+post_view_conv		N-Purchases after seeing (impression not literally seeing) the (last) ad
+unique_user_impressions	How many unique devices loaded impression (based on cookies)
+unique_user_inview	How many unique devices viewed impression (based on cookies)
+unique_user_is_click	How many unique devices clicked ad (based on cookies)
+unique_user_post_click_conv	How many unique devices had conversion after clicking (based on cookies)
+unique_user_post_view_conv	How many unqiue devices had conversion after loading ad
+
+- Money
+media_cost		Cost to advertiser per 1000 impressions
+buyer_bid		?
+clicks			How often ad was clicked and user redirected to company site
