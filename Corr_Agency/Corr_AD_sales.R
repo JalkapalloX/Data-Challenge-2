@@ -1,10 +1,12 @@
 if (Sys.info()["user"] == "Roger Tian"){
 setwd("C:/onedrive/onedriveSYNC/DS2017/year_2/Q3/JBG050 Data Challenge2/Data-Challenge-2")}
+if (Sys.info()["user"]== "Roger") {
+setwd("C:/Users/Roger/OneDrive/onedriveSYNC/DS2017/year_2/Q3/JBG050 Data Challenge2/Data-Challenge-2")}
 data <- read.csv("./Data/DataChallenge2019_GreenhouseGroup_Bidding_Algorithms_Tests.csv", sep=";")
 
 data["view_frequency"]= data["impressions_inview"]/data["unique_user_inview"]
 data["buying_per_impression"]= (data["post_click_conv"]+data["post_view_conv"])/data["impressions_inview"]
-data["conversion_per_eur"]= 1000*(data["post_click_conv"]+data["post_view_conv"])/data["buyer_bid"]
+data["conversion_per_eur"]= 1000*(data["post_click_conv"]+data["post_view_conv"])/data["media_cost"]
 
 # linear regression
 lm_buying_per_impression = lm(buying_per_impression~view_frequency,data=data)
