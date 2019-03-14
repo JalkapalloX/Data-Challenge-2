@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy.stats as st
+from scipy.stats import norm
 
 data = pd.read_csv('Data/DataChallenge2019_GreenhouseGroup_Bidding_Algorithms_Tests.csv',
                    sep=';').dropna(how='all')
@@ -16,21 +16,22 @@ data['clicks_pi'] = data['clicks'] / data['impressions']
 
 data['Post-view conv pi'] = data['post_view_conv'] / data['impressions']
 data['Post-click conv pi'] = data['post_click_conv'] / data['impressions']
+data['Conv pi'] = data['Post-view conv pi'] + data['Post-click conv pi']
 
-data['Post-view conv pe'] = data['Post-view conv pi'] / (data['buyer_bid'] / 1000)
-data['Post-click conv pe'] = data['Post-click conv pi'] / (data['buyer_bid'] / 1000)
-data['Conv pi'] = (data['Post-view conv pi'] + data['Post-click conv pi']) / data['impressions']
+data['Post-view conv pe'] = data['Post-view conv pi'] / (data['media_cost'] / 1000)
+data['Post-click conv pe'] = data['Post-click conv pi'] / (data['media_cost'] / 1000)
+data['Conv pe'] = (data['Post-view conv pe'] + data['Post-click conv pe'])
 
 data['UU view pi'] = data['unique_user_inview'] / data['impressions']
 data['UU click pi'] = data['unique_user_is_click'] / data['impressions']
 
-data['UU view pe'] = data['unique_user_inview'] / data['impressions'] / (data['buyer_bid'] / 1000)
-data['UU click pe'] = data['unique_user_is_click'] / data['impressions'] / (data['buyer_bid'] / 1000)
-data['Conv pe'] = (data['post_view_conv'] + data['post_click_conv']) / (data['buyer_bid'] / 1000)
+data['UU view pe'] = data['UU view pi'] / (data['media_cost'] / 1000)
+data['UU click pe'] = data['UU click pi'] / (data['media_cost'] / 1000)
 
 data['start_date'] = pd.to_datetime(data['start_date'])
 data['end_date'] = pd.to_datetime(data['end_date'])
 data['campaign_duration'] = (data['end_date'] - data['start_date']).dt.days
+
 
 def agency_AB_performance(values, data=data):
 
@@ -39,41 +40,66 @@ def agency_AB_performance(values, data=data):
     delta = []
     indicator = []
     rel_increase = []
-    p_value_delta = []
+    p_value_higher = []
+    p_value_lower = []
     test_count = []
     
     for i in values:
-        if ' pe' in i:
-            data = data[data['buyer_bid'] > 0]
+
+        data = data[data['buyer_bid'] > 0]
+        data.drop_duplicates(['campaign_group_id', 'operating_system', 'device_type', 'test_group'], inplace=True)
+
         global df
-        df = data.groupby(['campaign_group_id', 'operating_system', 'device_type', 'test_group'])[i].sum().unstack().dropna()
+    
+        df = data.groupby(['campaign_group_id', 'operating_system', 'device_type', 'test_group'])[i].mean().unstack().dropna()
         df2 = data.groupby(['campaign_group_id', 'operating_system', 'device_type', 'test_group'])['impressions'].sum().unstack().dropna()
         
         df = pd.concat([df, df2], axis=1)
         df.columns = ['A', 'B', 'A_count', 'B_count']
         
+        df = df[(df['A'] != 0) & (df['B'] != 0)]
+        
+        df['diff'] = df['B'] - df['A']
+        
         indicator.append(i)
         a_mean.append(np.mean(df['A']))
         b_mean.append(np.mean(df['B']))
         delta.append(np.mean(df['B']) - np.mean(df['A']))
-        rel_increase.append((np.mean(df['B']) - np.mean(df['A']))/abs(np.mean(df['A'])))
-
+        rel_increase.append((np.mean(df['B']) - np.mean(df['A']))/abs(np.mean(df['A'])) * 100)
+        
         # Z-test B > A
-        x_bar = df['B']
-        q = df['A']
+        p1 = df['A']
+        p2 = df['B']
+        var1 = p1*(1-p1)
+        var2 = p2*(1-p2)
 
-        z = (x_bar-q) * np.sqrt((df['A_count'] + df['B_count'])/(q*(1-q)))
-        pval = 2*(1-st.norm.cdf(abs(z)))
+        z = (p2-p1)/(var1/df['A_count'] + var2/df['B_count'])**0.5
+        pval = norm.cdf(z)
         count = 0
-        y=0
+
         for i in pval:
             if i < 0.05:
                 count += 1
-            y += 1
-        
-        p_value_delta.append(count)
-        test_count.append(y)
 
+        p_value_higher.append(count)
+        test_count.append(df['A'].count())
+        
+        # Z-test A > B
+        p1 = df['B']
+        p2 = df['A']
+
+        var1 = p1*(1-p1)
+        var2 = p2*(1-p2)
+
+        z = (p2-p1)/(var1/df['A_count'] + var2/df['B_count'])**0.5
+        pval = norm.cdf(z)
+        count = 0
+
+        for i in pval:
+            if i < 0.05:
+                count += 1
+
+        p_value_lower.append(count)
 
     performance_df = pd.DataFrame()
     performance_df['indicator'] = indicator
@@ -81,15 +107,15 @@ def agency_AB_performance(values, data=data):
     performance_df['B_mean'] = b_mean
     performance_df['delta'] = delta
     performance_df['%increase'] = rel_increase
-    performance_df['sig_count'] = p_value_delta
+    performance_df['sig_count_higher'] = p_value_higher
+    performance_df['sig_count_lower'] = p_value_lower
     performance_df['test_count'] = test_count
     
     return performance_df
-        
+
+
 brand_rec_performance = agency_AB_performance(values=['UU click pi',
-                                                      'UU view pi',
-                                                      'UU click pe',
-                                                      'UU view pe'])
+                                                      'UU view pi'])
 
 sales_performance = agency_AB_performance(values=['Conv pi',
                                                   'Conv pe',
@@ -109,7 +135,7 @@ def plot_group_barchart(dataframe, title):
     ax.set_xticklabels(tuple(dataframe['indicator']), fontsize=14)
     #ax.legend((p1[0], p2[0]), ('Control algorithm', 'Bidwiser algorith'), fontsize=15)
     fig.savefig(fname=title)
-    
+
 
 #plot_group_barchart(dataframe=eff_reach_performance , title=' ')
     
