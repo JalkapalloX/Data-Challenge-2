@@ -1,0 +1,3 @@
+indicator,A_mean,B_mean,delta,%increase,sig_count_higher,sig_count_lower,test_count
+Unique User Click per Impression,0.001729841,0.001793924,6.41E-05,3.704581196,11,8,40
+Unique User View per Impression,0.419759958,0.403005135,-0.016754822,-3.991524695,19,13,45

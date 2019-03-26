@@ -1,0 +1,13 @@
+SALES PERFORMANCE,,,,,,,,,
+indicator,A_mean,B_mean,delta,%increase,sig_count_higher,sig_count_lower,test_count,,Remarks
+Conversions per Impression,0.002821383,0.003061694,0.000240311,8.5174848,6,5,27,,"Increase, both percentage and significance count"
+Post-view Conversions per Impression,0.002437151,0.002481588,4.44E-05,1.823340344,1,5,17,,"Increase/decrease (not clear). This is an unstable column, as this type of conversions are hard to influence."
+Post-Click Conversions Per Impression,0.001324052,0.001547657,0.000223605,16.88790345,5,3,25,,"Big increase, both percentage and significance count."
+,,,,,,,,,
+BRANDING PERFORMANCE,,,,,,,,,
+indicator,A_mean,B_mean,delta,%increase,sig_count_higher,sig_count_lower,test_count,,Remarks
+Unique User Click per Impression,0.001729841,0.001793924,6.41E-05,3.704581196,11,8,40,,"Increase, both percentage and significance count"
+Unique User View per Impression,0.419759958,0.403005135,-0.016754822,-3.991524695,19,13,45,,Increase / decrease; percentage decreases but can be Simpson's paradox (significance count)
+,,,,,,,,,
+General remarks,,,,,,,,,
+"Exact matching was used (on campaign group ID, device type and OS), and the results of A & B were tested using a two-sample, 1-sided Welch t-test.  (H_0: B<=A for significance count higher: H_1 counted.)",,,,,,,,,
